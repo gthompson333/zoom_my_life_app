@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "338156506675",
+    "project_id": "zoom-my-life",
+    "storage_bucket": "zoom-my-life.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:338156506675:android:8c21cb7ff02823bbd65d46",
+        "android_client_info": {
+          "package_name": "com.zoommylife.zoom_my_life_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBE10_dUYUlb_-r5cRfpYuzQ-7u755beMw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
