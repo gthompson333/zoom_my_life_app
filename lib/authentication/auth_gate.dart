@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:zoom_my_life_app/screens/login_screen.dart';
 import '../screens/documents_list_screen.dart';
+import '../screens/login_or_register.dart';
 
 class AuthGate extends StatelessWidget {
   const AuthGate({super.key});
@@ -18,9 +18,7 @@ class AuthGate extends StatelessWidget {
           }
           // User is not logged in.
           else {
-            return const LoginScreen(
-              onTap: null,
-            );
+            return const LoginOrRegister();
           }
         },
       ),

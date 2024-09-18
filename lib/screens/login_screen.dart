@@ -39,19 +39,11 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  void forgotPw() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text("User tapped forgot password."),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
