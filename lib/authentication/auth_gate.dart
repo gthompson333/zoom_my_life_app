@@ -18,7 +18,9 @@ class AuthGate extends StatelessWidget {
           }
           // User is not logged in.
           else {
-            return const LoginScreen();
+            return const LoginScreen(
+              onTap: null,
+            );
           }
         },
       ),
