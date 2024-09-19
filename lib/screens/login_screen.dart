@@ -1,3 +1,4 @@
+import 'dart:developer' as dev;
 import 'package:flutter/material.dart';
 
 import '../authentication/auth_service.dart';
@@ -14,16 +15,16 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
-  void login() async {
+  void _login() async {
     final authService = AuthService();
 
     try {
       await authService.signInWithEmailPassword(
-        emailController.text,
-        passwordController.text,
+        _emailController.text,
+        _passwordController.text,
       );
     } catch (e) {
       if (mounted) {
@@ -41,7 +42,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -65,19 +65,19 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 25),
                 ZoomMyLifeTextfield(
-                  controller: emailController,
+                  controller: _emailController,
                   hintText: 'Email',
                   obscureText: false,
                 ),
                 const SizedBox(height: 10),
                 ZoomMyLifeTextfield(
-                  controller: passwordController,
+                  controller: _passwordController,
                   hintText: 'Password',
                   obscureText: true,
                 ),
                 const SizedBox(height: 25),
                 ZoomMyLifeButton(
-                  onTap: login,
+                  onTap: _login,
                   text: "Login",
                 ),
                 const SizedBox(height: 25),
@@ -108,5 +108,11 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  Future<void> dispose() async {
+    dev.log("DISPOSING LOGIN");
+    super.dispose();
   }
 }
