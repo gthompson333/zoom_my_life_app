@@ -1,10 +1,6 @@
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
-import 'dart:io';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:zoom_my_life_app/authentication/auth_service.dart';
-import '../documents/documents_service.dart';
+import 'package:zoom_my_life_app/shared/exports.dart';
 
 class DocumentsListScreen extends StatefulWidget {
   const DocumentsListScreen({super.key});
@@ -30,14 +26,17 @@ class _DocumentsListScreenState extends State<DocumentsListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text(
           "Documents List",
         ),
         centerTitle: true,
         actions: [
-          IconButton(onPressed: () {
-            _authService.signOut();
-          }, icon: const Icon(Icons.logout)),
+          IconButton(
+              onPressed: () {
+                _authService.signOut();
+              },
+              icon: const Icon(Icons.logout)),
         ],
       ),
       body: _buildUI(),
@@ -64,6 +63,18 @@ class _DocumentsListScreenState extends State<DocumentsListScreen> {
     );
   }
 
+  Widget _deleteDocumentButton(Reference docRef) {
+    return IconButton(
+      icon: const Icon(Icons.delete),
+      onPressed: () async {
+        bool success = await _documentsService.deleteDocumentForUser(docRef);
+        if (success) {
+          _getUploadedDocuments();
+        }
+      },
+    );
+  }
+
   Widget _buildUI() {
     if (_documents.isEmpty) {
       return const Center(
@@ -78,10 +89,15 @@ class _DocumentsListScreenState extends State<DocumentsListScreen> {
           future: ref.getDownloadURL(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return ListTile(
-                leading: Image.network(snapshot.data!),
-                title: Text(
-                  ref.name,
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListTile(
+                  tileColor: Theme.of(context).colorScheme.primaryContainer,
+                  leading: Image.network(snapshot.data!),
+                  trailing: _deleteDocumentButton(ref),
+                  title: Text(
+                    ref.name,
+                  ),
                 ),
               );
             }
@@ -106,7 +122,7 @@ class _DocumentsListScreenState extends State<DocumentsListScreen> {
 
   @override
   Future<void> dispose() async {
-    log("DISPOSING DOCUMENTS");
+    log("Disposing Documents Screen.");
     super.dispose();
   }
 }

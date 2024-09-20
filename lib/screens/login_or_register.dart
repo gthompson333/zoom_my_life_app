@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:zoom_my_life_app/screens/login_screen.dart';
+import 'package:zoom_my_life_app/shared/exports.dart';
 import 'package:zoom_my_life_app/screens/register_screen.dart';
+import 'login_screen.dart';
 
 class LoginOrRegister extends StatefulWidget {
   const LoginOrRegister({super.key});
@@ -10,23 +10,23 @@ class LoginOrRegister extends StatefulWidget {
 }
 
 class _LoginOrRegisterState extends State<LoginOrRegister> {
-  bool showLoginPage = true;
+  bool _showLoginPage = true;
 
-  void togglePages() {
+  void _togglePages() {
     setState(() {
-      showLoginPage = !showLoginPage;
+      _showLoginPage = !_showLoginPage;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (showLoginPage) {
+    if (_showLoginPage) {
       return LoginScreen(
-        onTap: togglePages,
+        onTap: _togglePages,
       );
     } else {
       return RegisterScreen(
-        onTap: togglePages,
+        onTap: _togglePages,
       );
     }
   }

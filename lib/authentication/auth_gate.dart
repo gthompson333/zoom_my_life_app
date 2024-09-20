@@ -3,6 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../screens/documents_list_screen.dart';
 import '../screens/login_or_register.dart';
 
+// Listens to the Firebase auth service for any changes to the user
+// auth state.
+// If the state changes, the appropriate screen widget is returned.
+// LoginOrRegister if the auth state is unauthorized.
+// DocumentsListScreen if the auth state is authorized.
 class AuthGate extends StatelessWidget {
   const AuthGate({super.key});
 

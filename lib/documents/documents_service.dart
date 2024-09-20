@@ -41,6 +41,17 @@ class DocumentsService {
     }
   }
 
+  Future<bool> deleteDocumentForUser(Reference document) async {
+    log("Documents service: Deleting document.");
+    try {
+      await document.delete();
+      return true;
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
   Future<List<Reference>?> getUserDocuments() async {
     try {
       final userId = FirebaseAuth.instance.currentUser?.uid;

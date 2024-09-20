@@ -1,9 +1,5 @@
-import 'dart:developer' as dev;
-import 'package:flutter/material.dart';
-
-import '../authentication/auth_service.dart';
-import '../custom_ui_widgets/zoom_my_life_button.dart';
-import '../custom_ui_widgets/zoom_my_life_textfield.dart';
+import 'package:zoom_my_life_app/shared/exports.dart';
+import 'dart:developer';
 
 class LoginScreen extends StatefulWidget {
   final void Function()? onTap;
@@ -43,7 +39,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -93,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     GestureDetector(
                       onTap: widget.onTap,
                       child: Text(
-                        'Register now',
+                        'Register',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Theme.of(context).colorScheme.primary,
@@ -112,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Future<void> dispose() async {
-    dev.log("DISPOSING LOGIN");
+    log("Disposing Login Screen.");
     super.dispose();
   }
 }

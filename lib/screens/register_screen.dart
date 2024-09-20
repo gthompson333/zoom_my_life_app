@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:zoom_my_life_app/custom_ui_widgets/zoom_my_life_button.dart';
-import 'package:zoom_my_life_app/custom_ui_widgets/zoom_my_life_textfield.dart';
-import '../authentication/auth_service.dart';
+import 'package:zoom_my_life_app/shared/exports.dart';
+import 'dart:developer';
 
 class RegisterScreen extends StatefulWidget {
   final void Function()? onTap;
@@ -13,19 +11,19 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final confirmPasswordController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
 
   final authService = AuthService();
 
-  void register() async {
+  void _register() async {
     // Validate matching passwords.
-    if (passwordController.text == confirmPasswordController.text) {
+    if (_passwordController.text == _confirmPasswordController.text) {
       try {
         await authService.signUpWithEmailPassword(
-          emailController.text,
-          passwordController.text,
+          _emailController.text,
+          _passwordController.text,
         );
       } catch (e) {
         if (mounted) {
@@ -54,7 +52,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -76,26 +73,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 const SizedBox(height: 25),
                 ZoomMyLifeTextfield(
-                  controller: emailController,
+                  controller: _emailController,
                   hintText: 'Email',
                   obscureText: false,
                 ),
                 const SizedBox(height: 10),
                 ZoomMyLifeTextfield(
-                  controller: passwordController,
+                  controller: _passwordController,
                   hintText: 'Password',
                   obscureText: true,
                 ),
                 const SizedBox(height: 10),
                 ZoomMyLifeTextfield(
-                  controller: confirmPasswordController,
+                  controller: _confirmPasswordController,
                   hintText: 'Confirm password',
                   obscureText: true,
                 ),
                 const SizedBox(height: 25),
                 // sign in button
                 ZoomMyLifeButton(
-                  onTap: register,
+                  onTap: _register,
                   text: "Sign Up",
                 ),
                 const SizedBox(height: 50),
@@ -103,18 +100,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Already a member?',
+                      'Already registered?',
                       style: TextStyle(
-                          color: Theme.of(context).colorScheme.inversePrimary),
+                          color: Theme.of(context).colorScheme.primary),
                     ),
                     const SizedBox(width: 4),
                     GestureDetector(
                       onTap: widget.onTap,
                       child: Text(
-                        'Login now',
+                        'Login',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.inversePrimary,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                       ),
                     ),
@@ -126,5 +123,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  Future<void> dispose() async {
+    log("Disposing Register Screen.");
+    super.dispose();
   }
 }
