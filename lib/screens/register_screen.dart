@@ -15,7 +15,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
-  final authService = AuthService();
+  final authService = FirebaseAuthService();
 
   void _register() async {
     // Validate matching passwords.

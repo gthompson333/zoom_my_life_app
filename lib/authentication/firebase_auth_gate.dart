@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:zoom_my_life_app/shared/exports.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../screens/documents_list_screen.dart';
 import '../screens/login_or_register.dart';
