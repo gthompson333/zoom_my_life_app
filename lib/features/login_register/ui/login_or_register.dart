@@ -1,5 +1,5 @@
 import 'package:zoom_my_life_app/shared/exports.dart';
-import 'package:zoom_my_life_app/screens/register_screen.dart';
+import 'package:zoom_my_life_app/features/login_register/ui/register_screen.dart';
 import 'login_screen.dart';
 
 class LoginOrRegister extends StatefulWidget {

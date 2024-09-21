@@ -1,7 +1,7 @@
 import 'package:zoom_my_life_app/shared/exports.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../screens/documents_list_screen.dart';
-import '../screens/login_or_register.dart';
+import '../../documents/ui/documents_list_screen.dart';
+import '../ui/login_or_register.dart';
 
 // Listens to the Firebase auth service for any changes to the user
 // auth state.

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:zoom_my_life_app/authentication/firebase_auth_gate.dart';
+import 'package:zoom_my_life_app/features/login_register/service/firebase_auth_gate.dart';
 import 'firebase_options.dart';
 
 void main() async {

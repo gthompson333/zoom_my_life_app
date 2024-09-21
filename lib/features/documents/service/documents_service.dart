@@ -1,4 +1,4 @@
-import '../shared/exports.dart';
+import '../../../shared/exports.dart';
 
 abstract class DocumentsService {
   Future pickFileFromDevice(BuildContext context);
