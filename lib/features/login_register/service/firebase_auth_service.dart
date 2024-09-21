@@ -6,7 +6,7 @@ class FirebaseAuthService implements AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   @override
-  Future<UserCredential> signInWithEmailPassword(String email, password) async {
+  Future<UserCredential> signIn(String email, password) async {
     try {
       UserCredential userCredential =
           await _firebaseAuth.signInWithEmailAndPassword(
@@ -25,7 +25,7 @@ class FirebaseAuthService implements AuthService {
   }
 
   @override
-  Future<UserCredential> signUpWithEmailPassword(String email, password) async {
+  Future<UserCredential> createUser(String email, password) async {
     try {
       UserCredential userCredential =
           await _firebaseAuth.createUserWithEmailAndPassword(
@@ -56,7 +56,6 @@ class FirebaseAuthService implements AuthService {
         return 'No user found with this email. Please sign up.';
       case 'Exception: invalid-email':
         return 'This email does not exist';
-      // Add other cases as needed
       default:
         return 'An unexpected error occurred. Please try again later.';
     }

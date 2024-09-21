@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:zoom_my_life_app/features/login_register/service/firebase_auth_gate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:zoom_my_life_app/features/login_register/service/auth_gate.dart';
+import 'app_bloc_observer.dart';
+import 'features/login_register/bloc/auth_bloc.dart';
+import 'features/login_register/service/firebase_auth_service.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -10,6 +14,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  Bloc.observer = AppBlocObserver();
   runApp(const ZoomMyLifeApp());
 }
 
@@ -18,8 +23,11 @@ class ZoomMyLifeApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: FirebaseAuthGate(),
+    return MaterialApp(
+      home: BlocProvider(
+        create: (context) => AuthBloc(FirebaseAuthService()),
+        child: const AuthGate(),
+      ),
     );
   }
 }

@@ -21,7 +21,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     // Validate matching passwords.
     if (_passwordController.text == _confirmPasswordController.text) {
       try {
-        await authService.signUpWithEmailPassword(
+        await authService.createUser(
           _emailController.text,
           _passwordController.text,
         );

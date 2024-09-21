@@ -18,7 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final authService = FirebaseAuthService();
 
     try {
-      await authService.signInWithEmailPassword(
+      await authService.signIn(
         _emailController.text,
         _passwordController.text,
       );
