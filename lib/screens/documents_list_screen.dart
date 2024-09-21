@@ -1,5 +1,5 @@
-import 'dart:developer';
 import 'package:zoom_my_life_app/shared/exports.dart';
+import 'dart:developer';
 
 class DocumentsListScreen extends StatefulWidget {
   const DocumentsListScreen({super.key});
@@ -15,7 +15,7 @@ class _DocumentsListScreenState extends State<DocumentsListScreen> {
 
   @override
   void initState() {
-    _documentsService = DocumentsService();
+    _documentsService = FirebaseDocumentsService();
     _authService = FirebaseAuthService();
     _getUploadedDocuments();
     super.initState();

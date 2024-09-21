@@ -8,8 +8,8 @@ import '../screens/login_or_register.dart';
 // If the state changes, the appropriate screen widget is returned.
 // LoginOrRegister if the auth state is unauthorized.
 // DocumentsListScreen if the auth state is authorized.
-class AuthGate extends StatelessWidget {
-  const AuthGate({super.key});
+class FirebaseAuthGate extends StatelessWidget {
+  const FirebaseAuthGate({super.key});
 
   @override
   Widget build(BuildContext context) {
