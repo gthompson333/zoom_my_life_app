@@ -4,6 +4,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseAuthService implements AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  bool _isAuthenticated = false;
+
+  FirebaseAuthService() {
+    _listenForAuthStateChanges();
+  }
+
+  @override
+  Stream<bool> authStateChanged() async* {
+    yield _isAuthenticated;
+  }
 
   @override
   Future<UserCredential> signIn(String email, password) async {
@@ -46,6 +56,17 @@ class FirebaseAuthService implements AuthService {
   @override
   Future signOut() async {
     return await _firebaseAuth.signOut();
+  }
+
+  void _listenForAuthStateChanges() {
+    _firebaseAuth.authStateChanges().listen((User? user) {
+      // User is not authenticated.
+      if (user == null) {
+        _isAuthenticated = false;
+      } else {
+        _isAuthenticated = true;
+      }
+    });
   }
 
   String getErrorMessage(String errorCode) {

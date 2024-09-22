@@ -9,7 +9,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthService _authService;
 
   AuthBloc(this._authService) : super(IsNotAuthenticatedAuthState()) {
-    on<LoginAuthEvent>((event, emit) async {
+    _authService.authStateChanged().listen((isAuthenticated) {
+      add(AuthStatusChangedAuthEvent(isAuthenticated));
+    });
+
+    on<LoggedInAuthEvent>((event, emit) async {
       emit(AuthenticationInProgressAuthState());
       try {
         await _authService.signIn(event.email, event.password);
@@ -19,7 +23,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
 
-    on<CreateUserEvent>((event, emit) async {
+    on<UserCreatedAuthEvent>((event, emit) async {
       emit(AuthenticationInProgressAuthState());
       try {
         await _authService.createUser(event.email, event.password);
@@ -29,9 +33,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
 
-    on<LogoutAuthEvent>((event, emit) async {
+    on<LoggedOutAuthEvent>((event, emit) async {
       await _authService.signOut();
       emit(IsNotAuthenticatedAuthState());
+    });
+
+    on<AuthStatusChangedAuthEvent>((event, emit) async {
+      if (event.isAuthenticated) {
+        emit(IsAuthenticatedAuthState());
+      } else {
+        emit(IsNotAuthenticatedAuthState());
+      }
     });
   }
 }

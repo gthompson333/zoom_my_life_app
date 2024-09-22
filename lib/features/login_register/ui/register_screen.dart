@@ -22,7 +22,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (_passwordController.text == _confirmPasswordController.text) {
       context
           .read<AuthBloc>()
-          .add(LoginAuthEvent(_emailController.text, _passwordController.text));
+          .add(LoggedInAuthEvent(_emailController.text, _passwordController.text));
     } else {
       if (mounted) {
         showDialog(

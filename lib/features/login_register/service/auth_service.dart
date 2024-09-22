@@ -4,4 +4,6 @@ abstract class AuthService {
   Future createUser(String email, password);
 
   Future signOut();
+
+  Stream<bool> authStateChanged();
 }

@@ -17,7 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void _login() async {
     context
         .read<AuthBloc>()
-        .add(LoginAuthEvent(_emailController.text, _passwordController.text));
+        .add(LoggedInAuthEvent(_emailController.text, _passwordController.text));
   }
 
   @override

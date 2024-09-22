@@ -31,7 +31,7 @@ class _DocumentsListScreenState extends State<DocumentsListScreen> {
         actions: [
           IconButton(
               onPressed: () {
-                context.read<AuthBloc>().add(LogoutAuthEvent());
+                context.read<AuthBloc>().add(LoggedOutAuthEvent());
               },
               icon: const Icon(Icons.logout)),
         ],
