@@ -15,25 +15,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
-  final authService = FirebaseAuthService();
-
   void _register() async {
-    // Validate matching passwords.
-    if (_passwordController.text == _confirmPasswordController.text) {
-      context
-          .read<AuthBloc>()
-          .add(LoggedInAuthEvent(_emailController.text, _passwordController.text));
-    } else {
-      if (mounted) {
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-            title: const Text("Passwords don't match"),
-          ),
-        );
-      }
-    }
+    context.read<AuthBloc>().add(
+        UserCreatedAuthEvent(_emailController.text, _passwordController.text));
   }
 
   @override
