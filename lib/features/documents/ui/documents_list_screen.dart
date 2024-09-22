@@ -10,13 +10,11 @@ class DocumentsListScreen extends StatefulWidget {
 
 class _DocumentsListScreenState extends State<DocumentsListScreen> {
   late DocumentsService _documentsService;
-  late AuthService _authService;
   List<Reference> _documents = [];
 
   @override
   void initState() {
     _documentsService = FirebaseDocumentsService();
-    _authService = FirebaseAuthService();
     _getUploadedDocuments();
     super.initState();
   }
@@ -33,7 +31,7 @@ class _DocumentsListScreenState extends State<DocumentsListScreen> {
         actions: [
           IconButton(
               onPressed: () {
-                _authService.signOut();
+                context.read<AuthBloc>().add(LogoutAuthEvent());
               },
               icon: const Icon(Icons.logout)),
         ],

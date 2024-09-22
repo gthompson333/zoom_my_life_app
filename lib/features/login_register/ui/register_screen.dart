@@ -20,22 +20,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void _register() async {
     // Validate matching passwords.
     if (_passwordController.text == _confirmPasswordController.text) {
-      try {
-        await authService.createUser(
-          _emailController.text,
-          _passwordController.text,
-        );
-      } catch (e) {
-        if (mounted) {
-          showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-              title: Text(e.toString()),
-            ),
-          );
-        }
-      }
+      context
+          .read<AuthBloc>()
+          .add(LoginAuthEvent(_emailController.text, _passwordController.text));
     } else {
       if (mounted) {
         showDialog(

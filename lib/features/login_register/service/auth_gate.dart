@@ -1,6 +1,5 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:zoom_my_life_app/features/login_register/bloc/auth_bloc.dart';
 import 'package:zoom_my_life_app/shared/exports.dart';
+import 'package:zoom_my_life_app/features/login_register/bloc/auth_bloc.dart';
 import '../../documents/ui/documents_list_screen.dart';
 import '../ui/login_or_register.dart';
 

@@ -15,25 +15,9 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController();
 
   void _login() async {
-    final authService = FirebaseAuthService();
-
-    try {
-      await authService.signIn(
-        _emailController.text,
-        _passwordController.text,
-      );
-    } catch (e) {
-      if (mounted) {
-        String errorMessage = authService.getErrorMessage(e.toString());
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-            title: Text(errorMessage),
-          ),
-        );
-      }
-    }
+    context
+        .read<AuthBloc>()
+        .add(LoginAuthEvent(_emailController.text, _passwordController.text));
   }
 
   @override

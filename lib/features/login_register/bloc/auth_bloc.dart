@@ -1,5 +1,4 @@
 import 'package:zoom_my_life_app/shared/exports.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
 part 'auth_event.dart';
@@ -14,6 +13,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthenticationInProgressAuthState());
       try {
         await _authService.signIn(event.email, event.password);
+        emit(IsAuthenticatedAuthState());
+      } catch (e) {
+        emit(IsNotAuthenticatedAuthState());
+      }
+    });
+
+    on<CreateUserEvent>((event, emit) async {
+      emit(AuthenticationInProgressAuthState());
+      try {
+        await _authService.createUser(event.email, event.password);
         emit(IsAuthenticatedAuthState());
       } catch (e) {
         emit(IsNotAuthenticatedAuthState());
