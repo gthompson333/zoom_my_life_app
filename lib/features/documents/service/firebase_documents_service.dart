@@ -1,28 +1,11 @@
 import 'dart:developer';
 import 'dart:io';
-import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
+import 'package:zoom_my_life_app/features/documents/model/document_model.dart';
 import 'package:zoom_my_life_app/features/documents/service/documents_service.dart';
 
 class FirebaseDocumentsService implements DocumentsService {
-  @override
-  Future<File?> pickFileFromDevice(BuildContext context) async {
-    try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles();
-      File? pickedFile;
-
-      if (result != null) {
-        pickedFile = File(result.files.single.path!);
-      }
-      return pickedFile;
-    } catch (e) {
-      log(e.toString());
-      rethrow;
-    }
-  }
-
   @override
   Future<bool> uploadDocumentForUser(File file) async {
     try {
@@ -57,17 +40,27 @@ class FirebaseDocumentsService implements DocumentsService {
   }
 
   @override
-  Future<List<Reference>?> getUserDocuments() async {
+  Future<List<DocumentModel>> getUserDocuments() async {
     try {
       final userId = FirebaseAuth.instance.currentUser?.uid;
+      List<DocumentModel> documentModels = <DocumentModel>[];
 
       if (userId != null) {
-        final storageRef = FirebaseStorage.instance.ref();
-        final uploadsRefs = storageRef.child("$userId/uploads");
-        final uploads = await uploadsRefs.listAll();
-        return uploads.items;
+        // Fetch the Firebase upload items for the user.
+        final uploadsRef =
+            FirebaseStorage.instance.ref().child("$userId/uploads");
+
+        final uploadItems = await uploadsRef.listAll();
+
+        // Iterate through the Firebase upload items and construct a model object for each one.
+        for (Reference uploadItem in uploadItems.items) {
+          final uploadUrl = await uploadItem.getDownloadURL();
+          documentModels
+              .add(DocumentModel(uploadItem.name, uploadUrl, uploadItem));
+        }
+        return documentModels;
       }
-      return null;
+      return documentModels;
     } catch (e) {
       log(e.toString());
       rethrow;

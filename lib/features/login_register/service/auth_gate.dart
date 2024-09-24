@@ -1,5 +1,5 @@
+import 'package:zoom_my_life_app/features/documents/bloc/documents_cubit.dart';
 import 'package:zoom_my_life_app/shared/exports.dart';
-import 'package:zoom_my_life_app/features/login_register/bloc/auth_bloc.dart';
 import '../../documents/ui/documents_list_screen.dart';
 import '../ui/login_or_register.dart';
 
@@ -15,7 +15,11 @@ class AuthGate extends StatelessWidget {
       body: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
         switch (state) {
           case IsAuthenticatedAuthState():
-            return const DocumentsListScreen();
+            return BlocProvider(
+              create: (context) => DocumentsCubit(FirebaseDocumentsService()),
+              child: const DocumentsListScreen(),
+            );
+
           case AuthenticationInProgressAuthState():
             return const Center(child: CircularProgressIndicator());
           case AuthenticationFailedAuthState():

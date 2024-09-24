@@ -1,3 +1,4 @@
+import 'package:zoom_my_life_app/features/documents/bloc/documents_cubit.dart';
 import 'package:zoom_my_life_app/shared/exports.dart';
 import 'dart:developer';
 
@@ -9,13 +10,9 @@ class DocumentsListScreen extends StatefulWidget {
 }
 
 class _DocumentsListScreenState extends State<DocumentsListScreen> {
-  late DocumentsService _documentsService;
-  List<Reference> _documents = [];
-
   @override
   void initState() {
-    _documentsService = FirebaseDocumentsService();
-    _getUploadedDocuments();
+    context.read<DocumentsCubit>().getDocumentsForUser();
     super.initState();
   }
 
@@ -44,14 +41,9 @@ class _DocumentsListScreenState extends State<DocumentsListScreen> {
   Widget _uploadDocumentButton(BuildContext context) {
     return FloatingActionButton(
       onPressed: () async {
-        File? selectedImage =
-            await _documentsService.pickFileFromDevice(context);
-        if (selectedImage != null) {
-          bool success =
-              await _documentsService.uploadDocumentForUser(selectedImage);
-          if (success) {
-            _getUploadedDocuments();
-          }
+        File? selectedFile = await pickFileFromDevice(context);
+        if (selectedFile != null && context.mounted) {
+          context.read<DocumentsCubit>().uploadDocumentForUser(selectedFile);
         }
       },
       child: const Icon(
@@ -64,57 +56,46 @@ class _DocumentsListScreenState extends State<DocumentsListScreen> {
     return IconButton(
       icon: const Icon(Icons.delete),
       onPressed: () async {
-        bool success = await _documentsService.deleteDocumentForUser(docRef);
-        if (success) {
-          _getUploadedDocuments();
-        }
+        context.read<DocumentsCubit>().deleteDocumentForUser(docRef);
       },
     );
   }
 
   Widget _buildUI() {
-    if (_documents.isEmpty) {
-      return const Center(
-        child: Text("No documents uploaded yet."),
-      );
-    }
-    return ListView.builder(
-      itemCount: _documents.length,
-      itemBuilder: (context, index) {
-        Reference ref = _documents[index];
-        return FutureBuilder(
-          future: ref.getDownloadURL(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListTile(
-                  tileColor: Theme.of(context).colorScheme.primaryContainer,
-                  leading: Image.network(snapshot.data!),
-                  trailing: _deleteDocumentButton(ref),
-                  title: Text(
-                    ref.name,
-                  ),
-                ),
+    return BlocBuilder<DocumentsCubit, DocumentsState>(
+      builder: (context, state) {
+        switch (state) {
+          case DocumentsOpInProgress():
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          case DocumentsOpFailed():
+            return const Center(
+              child: Text("Documents operation failed."),
+            );
+          default:
+            if (state.documents.isEmpty) {
+              return const Center(
+                child: Text("No documents uploaded yet."),
               );
             }
-            return Container();
-          },
-        );
+            return ListView.builder(
+              itemCount: state.documents.length,
+              itemBuilder: (context, index) {
+                final documentModel = state.documents[index];
+                return ListTile(
+                  tileColor: Theme.of(context).colorScheme.primaryContainer,
+                  leading: Image.network(documentModel.fileUrl),
+                  trailing: _deleteDocumentButton(documentModel.ref),
+                  title: Text(
+                    documentModel.name,
+                  ),
+                );
+              },
+            );
+        }
       },
     );
-  }
-
-  void _getUploadedDocuments() async {
-    List<Reference>? result = await _documentsService.getUserDocuments();
-
-    if (result != null) {
-      setState(
-        () {
-          _documents = result;
-        },
-      );
-    }
   }
 
   @override

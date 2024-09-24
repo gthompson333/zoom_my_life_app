@@ -9,6 +9,8 @@ export 'package:zoom_my_life_app/features/documents/service/firebase_documents_s
 export 'package:zoom_my_life_app/features/documents/service/documents_service.dart';
 export 'package:zoom_my_life_app/shared/ui/zoom_my_life_button.dart';
 export 'package:zoom_my_life_app/shared/ui/zoom_my_life_textfield.dart';
+export 'package:zoom_my_life_app/shared/utils.dart';
+
 
 
 
